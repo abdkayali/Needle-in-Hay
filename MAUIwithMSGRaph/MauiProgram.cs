@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using MAUIwithMSGRaph.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace MAUIwithMSGRaph;
 
@@ -9,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -18,6 +21,9 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		builder.Services.AddSingleton<MainViewModel>();
+		builder.Services.AddSingleton<MainPage>();
 
 		return builder.Build();
 	}
