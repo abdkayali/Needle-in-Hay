@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
+        Title="Hack Together"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

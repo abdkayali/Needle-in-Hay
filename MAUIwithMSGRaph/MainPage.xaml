@@ -1,53 +1,118 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MAUIwithMSGRaph.MainPage">
-
+             x:Class="MAUIwithMSGRaph.MainPage"
+             xmlns:viewModels="clr-namespace:MAUIwithMSGRaph.ViewModels">
+    <ContentPage.BindingContext>
+        <viewModels:MainViewModel />
+    </ContentPage.BindingContext>
     <ScrollView>
         <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
+            Spacing="5"
+            Padding="25,0"
             VerticalOptions="Center">
 
             <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
+                Source="graph_logo.png"
+                SemanticProperties.Description="Cute graph logo!"
+                HeightRequest="150"
+                WidthRequest="200"
                 HorizontalOptions="Center" />
 
 
             <Label
                 x:Name="HelloLabel"
-                Text="Hello, World!"
+                Text="{Binding HelloMessage}"
                 SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
+                FontSize="28"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Welcome to .NET Multi-platform App UI"
+                x:Name="SubTitleLabel"
+                Text="{Binding SubtitleMessage}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+                FontSize="20"
+                HorizontalOptions="Center"
+                />
 
-            <!--<Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />-->
+            <HorizontalStackLayout >
+                <CheckBox x:Name="chkChatMessage" IsChecked="{Binding Path=IncludeChatMessage}" />
+                <Label Text="Teams Messages" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
 
-            <Button
-                x:Name="GetUserInfoBtn"
-                Text="Load User Info"
-                SemanticProperties.Hint="Loads user information from Microsoft Graph"
-                Clicked="GetUserInfoBtn_Clicked"
-                HorizontalOptions="Center" />
+            <HorizontalStackLayout>
+                <CheckBox x:Name="chkMessage" IsChecked="{Binding Path=IncludeMessage, Mode=TwoWay}" />
+                <Label Text="Email Messages" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
 
-            <SearchBar Placeholder="Contoso" />
+            <HorizontalStackLayout>
+                <CheckBox x:Name="chkEvent" IsChecked="{Binding Path=IncludeEvent, Mode=TwoWay}" />
+                <Label Text="Calendar Events" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
 
-            <Label Text="Filters as checkboxes: Todo, Mail, Calendar, etc" />
-            <Label Text="List or grid to show the results where every item should show its source (e.g. mail, todo, etc) and the object found (could be clicked to show expanded details)" />
+            <HorizontalStackLayout>
+                <CheckBox x:Name="chkFilesSites" IsChecked="{Binding Path=IncludeFilesSites, Mode=TwoWay}" />
+                <Label Text="Document Libraries, Files, Folders, Pages, News, Lists, List items, and Sites" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            
+            <SearchBar Placeholder="Contoso" 
+                       Text="{Binding Path=SearchTerms, Mode=TwoWay}"
+                       SearchCommand="{Binding SearchForTheNeedleCommand}"  
+                       />
+
+            <Label
+                Text="{Binding ErrorMessage}"
+                TextColor="Maroon"
+                BackgroundColor="AntiqueWhite"
+                FontSize="20"
+                Padding="5"
+                
+                /> 
+
+            <!-- TODO Validation for Search btn (at least one entity type is selected && search term is not empty) -->
+            <!-- TODO Expander for filters -->
+
+            <!--<Grid>
+                <Grid.Row>
+                    
+                </Grid.Row>
+            </Grid>-->
+            
+            
+
+            <Label Text="Results" FontSize="32" FontAttributes="Bold" />
+            <!-- TODO no results so far label -->
+            
+            <CollectionView
+                ItemsSource="{Binding SearchResultItemsGroup}"
+                IsGrouped="True" >
+
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            
+                            <Label Text="{Binding HeaderText}"
+                                   
+                                FontSize="18"
+                                FontAttributes="Bold" /> 
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+
+                            <Label TextType="Html" Text="{Binding SummaryHtml}" FontSize="14" TextColor="Black"/>
+                            
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>

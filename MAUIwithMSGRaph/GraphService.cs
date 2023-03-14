@@ -6,10 +6,23 @@ namespace MAUIwithMSGRaph
 {
     internal class GraphService
     {
-        private readonly string[] _scopes = new[] { "User.Read" };
-        private string ClientId = Environment.GetEnvironmentVariable("HackTogether2023.ClientId", EnvironmentVariableTarget.User) ?? "CLIENT_ID";
-        private string TenantId = Environment.GetEnvironmentVariable("HackTogether2023.TenantId", EnvironmentVariableTarget.User) ?? "common";
+        private readonly string[] _scopes = new[] 
+        { 
+            "User.Read",
+			"Chat.Read", // chatMessage
+			"ChannelMessage.Read.All", // chatMessage
+            "Mail.Read", // message
+            "Calendars.Read", // event
+            "Files.Read.All", // driveItem
+            "Sites.Read.All" // list, listItem, site
+
+            // TODO consider adding beta entity types such as bookmark
+		};
+        private string ClientId = Environment.GetEnvironmentVariable("HackTogether2023.ClientId", EnvironmentVariableTarget.User) ?? string.Empty;
+        private string TenantId = Environment.GetEnvironmentVariable("HackTogether2023.TenantId", EnvironmentVariableTarget.User) ?? string.Empty;
         private GraphServiceClient _client;
+
+        public GraphServiceClient Client => _client;
 
         public GraphService()
         {
