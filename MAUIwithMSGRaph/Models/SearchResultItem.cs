@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Graph.Models;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace MAUIwithMSGRaph.Models
 {
-	public sealed class SearchResultItem
+	public sealed class SearchResultItem : ObservableObject
 	{
 		private string _searchTerm;
 
-		public EntityType EntityType { get; set; }
+		public string EntityType { get; set; }
 		public string Summary { get; set; }
+
 		public string SummaryHtml { 
 			get
 			{
-				var boldedText = Summary.Replace(_searchTerm.ToLower(), $"<strong>{_searchTerm}</strong>");
+				var boldedText = Summary.Replace(_searchTerm, $"<strong>{_searchTerm}</strong>", true, CultureInfo.InvariantCulture);
 				return $"{boldedText}";
-				//return $"<![CDATA[{boldedText}]]>";
 			}
-
 		}
-		public string EntityTypeStr => EntityType.ToString();
+
+		public string ResourceId { get; set; }
+		public string Uri { get; set; }
+		public ICommand TapCommand => new AsyncRelayCommand<string>(async (url) => await Launcher.OpenAsync(url));
+
+		public bool HasUri => Uri != null;
+
+		public IDictionary<string, string> Dictionary { get; set; }
+
 		public SearchResultItem(string searchTerm)
 		{
 			_searchTerm = searchTerm;

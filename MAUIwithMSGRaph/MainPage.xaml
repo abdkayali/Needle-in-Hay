@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUIwithMSGRaph.MainPage"
-             xmlns:viewModels="clr-namespace:MAUIwithMSGRaph.ViewModels">
+             xmlns:viewModels="clr-namespace:MAUIwithMSGRaph.ViewModels"
+             xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls">
     <ContentPage.BindingContext>
         <viewModels:MainViewModel />
     </ContentPage.BindingContext>
@@ -13,12 +14,11 @@
             VerticalOptions="Center">
 
             <Image
-                Source="graph_logo.png"
-                SemanticProperties.Description="Cute graph logo!"
-                HeightRequest="150"
-                WidthRequest="200"
+                Source="bannerlogo.png"
+                SemanticProperties.Description="Cute Microsoft Graph logo!"
+                HeightRequest="215"
+                WidthRequest="215"
                 HorizontalOptions="Center" />
-
 
             <Label
                 x:Name="HelloLabel"
@@ -41,6 +41,11 @@
             </HorizontalStackLayout>
 
             <HorizontalStackLayout>
+                <CheckBox x:Name="chkPeople" IsChecked="{Binding Path=IncludePeople, Mode=TwoWay}" />
+                <Label Text="People" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
                 <CheckBox x:Name="chkMessage" IsChecked="{Binding Path=IncludeMessage, Mode=TwoWay}" />
                 <Label Text="Email Messages" VerticalTextAlignment="Center"></Label>
             </HorizontalStackLayout>
@@ -58,6 +63,7 @@
             <SearchBar Placeholder="Contoso" 
                        Text="{Binding Path=SearchTerms, Mode=TwoWay}"
                        SearchCommand="{Binding SearchForTheNeedleCommand}"  
+                       windows:SearchBar.IsSpellCheckEnabled="True"
                        />
 
             <Label
@@ -66,19 +72,8 @@
                 BackgroundColor="AntiqueWhite"
                 FontSize="20"
                 Padding="5"
-                
+                IsVisible="{Binding ShowErrorMessageLabel}"
                 /> 
-
-            <!-- TODO Validation for Search btn (at least one entity type is selected && search term is not empty) -->
-            <!-- TODO Expander for filters -->
-
-            <!--<Grid>
-                <Grid.Row>
-                    
-                </Grid.Row>
-            </Grid>-->
-            
-            
 
             <Label Text="Results" FontSize="32" FontAttributes="Bold" />
             <!-- TODO no results so far label -->
@@ -108,7 +103,24 @@
                         <StackLayout Padding="10">
 
                             <Label TextType="Html" Text="{Binding SummaryHtml}" FontSize="14" TextColor="Black"/>
+                            <!--<Label Text="{Binding Uri}" FontSize="8" FontAttributes="Italic"/>-->
                             
+                            <Label
+                                IsVisible="{Binding HasUri}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TapCommand}"
+                                      CommandParameter="{Binding Uri}" />
+                                </Label.GestureRecognizers>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Go to entity"
+                                            TextColor="Blue"
+                                            TextDecorations="Underline">          
+                                            
+                                        </Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
