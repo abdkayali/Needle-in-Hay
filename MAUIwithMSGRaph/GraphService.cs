@@ -11,6 +11,8 @@ namespace MAUIwithMSGRaph
             "User.Read",
 			"Chat.Read", // chatMessage
 			"ChannelMessage.Read.All", // chatMessage
+            "ChannelSettings.Read.All", // Channel Info
+			"People.Read", 
             "Mail.Read", // message
             "Calendars.Read", // event
             "Files.Read.All", // driveItem
@@ -49,8 +51,6 @@ namespace MAUIwithMSGRaph
             {
                 // TODO: Add iOS/Android support
             }
-
-
         }
 
         public async Task<User> GetMyDetailsAsync()

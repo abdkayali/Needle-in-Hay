@@ -49,6 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bannerlogo.png" />
 	  <None Remove="Resources\Images\graph_logo.png" />
 	  <None Remove="Resources\Images\hero_Icon.svg" />
 	  <None Remove="Resources\Images\microsoft_graph.png" />
@@ -61,6 +62,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Graph" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 </Project>
